@@ -1,0 +1,124 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-main {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 1vmin);
+  color: white;
+}
+
+.header {
+  padding: 20px;
+}
+.app-container {
+  width: 600px;
+  background-color: #333;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+
+
+  .input {
+    padding: 10px 20px;
+    border-radius: 10px 0 0 10px;
+    border: 2px solid goldenrod;
+    height: 40px;
+    flex-grow: 1;
+  }
+
+  .select-input {
+    padding: 10px 20px;
+    border: none;
+    border-top: 2px solid goldenrod;
+    border-bottom: 2px solid goldenrod;
+    font-size: 12px;
+    height: 40px;
+  }
+
+  .button {
+    padding: 10px 20px;
+    border-radius: 0 10px 10px 0;
+    border: 2px solid goldenrod;
+    background-color: goldenrod;
+    cursor: pointer;
+    height: 40px;
+    color: #fff;
+  }
+}
+.checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.todo-list {
+  background-color: #282c34;
+  height: 60vh;
+  padding: 5px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow-y: auto;
+}
+
+.todo {
+  width: 100%;
+  border: 2px solid goldenrod;
+  background-color: #333;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+
+  .todo-info {
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+.todo-action {
+  display: flex;
+  gap: 5px;
+}
+.todo-list__filter {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.icon {
+  cursor: pointer;
+}
+
+.low {
+  border: 2px solid green;
+}
+
+.high {
+  border: 2px solid red;
+}
