@@ -82,12 +82,12 @@ const List = ({
           <MdOutlineReplyAll />
         </span>
         {/* eslint-disable-next-line no-nested-ternary */}
-        <span className="icon" onClick={() => filterHandler('F')}>{filter.state ? filter.state : 'All'}</span>
+        <span className="icon" onClick={() => filterHandler('F')}>{filter.state ? `Completeness: ${filter.state}` : 'Completeness: All'}</span>
         <span
           className="icon"
           onClick={() => filterHandler('P')}
         >
-          {typeof filter.priority === 'number' ? priorityList[filter.priority] : 'All'}
+          {typeof filter.priority === 'number' ? `Priority: ${priorityList[filter.priority]}` : 'Priority: All'}
         </span>
 
       </div>
