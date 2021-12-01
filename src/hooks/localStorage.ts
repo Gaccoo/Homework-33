@@ -1,7 +1,8 @@
 // Hook
 import { useState } from 'react';
+import { TODO } from '../components/item';
 
-function useLocalStorage(key: string, initialValue: any) {
+function useLocalStorage(key: string, initialValue: TODO[]) {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState(() => {

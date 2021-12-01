@@ -29,7 +29,7 @@ const Input = ({
     event.preventDefault();
     if (!edit) {
       setTodos([...todos, {
-        id: Math.round(Math.random() * 1000), name: input.name, priority: input.priority, done: false,
+        id: Math.round(Math.random() * 1000), name: input.name, priority: input.priority, done: false, file: null,
       }]);
       setInput({ ...input, name: '' });
     }

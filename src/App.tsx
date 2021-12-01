@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.scss';
 import Input from './components/input';
 import List from './components/list';
@@ -8,12 +8,13 @@ import { TODO } from './components/item';
 
 const App = () => {
   const [todos, setTodos] = useLocalStorage('todos', [{
-    id: 1, name: 'Wash dishes', priority: 1, done: false,
-  }, {
-    id: 2, name: 'Take out the trash.', priority: 0, done: false,
+    id: 1, name: 'Wash dishes', priority: 1, done: false, file: null,
   },
   {
-    id: 3, name: 'Take out the dog.', priority: 2, done: false,
+    id: 2, name: 'Take out the trash.', priority: 0, done: false, file: null,
+  },
+  {
+    id: 3, name: 'Take out the dog.', priority: 2, done: false, file: null,
   }]);
   const progress = ((todos.filter((item: TODO) => item.done).length / todos.length) * 100).toFixed(0);
 

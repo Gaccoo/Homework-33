@@ -32,7 +32,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   font-size: calc(10px + 1vmin);
   color: white;
 }
@@ -92,7 +92,8 @@
 }
 .todo-list {
   background-color: #282c34;
-  height: 60vh;
+  max-height: 60vh;
+  min-height: 30vh;
   padding: 5px;
   border-radius: 10px;
   display: flex;
@@ -151,6 +152,11 @@
   left: 0;
 }
 
+.todo-name__wrapper {
+  display: flex;
+  gap: 5px;
+}
+
 .todo-action {
   display: flex;
   gap: 5px;
@@ -163,6 +169,11 @@
 }
 .icon {
   cursor: pointer;
+}
+
+.file-uploader {
+  display: flex;
+  gap: 10px;
 }
 
 .low {

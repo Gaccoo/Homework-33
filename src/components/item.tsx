@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import Input from './input';
+import FileUploader from './fileUploader';
 
 export type TODO = {
   id: number
   name: string
   priority: number
   done: boolean
+  file: object | null
 }
 
 type ListProps = {
@@ -23,6 +25,7 @@ const Item = ({
   name, id, priority, done, doneHandler, deleteHandler, todos, setTodos,
 }: ListProps) => {
   const [edit, setEdit] = useState(false);
+  const picture = todos.find((item) => item.id === id);
   const priorityClassSelector = () => {
     let classToReturn = '';
     if (!priority) {
@@ -54,11 +57,21 @@ const Item = ({
           : { opacity: 1, textDecoration: undefined }}
         className={priorityClassSelector()}
       >
-        <div onClick={() => doneHandler(id)} className="todo-info">
-          <input className="checkbox" type="checkbox" checked={done} onChange={() => doneHandler(id)} />
-          <h3>{name}</h3>
+        <div className="todo-info">
+          <div className="todo-name__wrapper" onClick={() => doneHandler(id)}>
+
+            <input className="checkbox" type="checkbox" checked={done} onChange={() => doneHandler(id)} />
+            <h3>{name}</h3>
+          </div>
+          {
+  // @ts-ignore
+            picture?.file ? <img alt="not found" style={{ width: '20px', height: '20px' }} src={picture.file.image} />
+              : null
+          }
+
         </div>
         <div className="todo-action">
+          <FileUploader todos={todos} setTodos={setTodos} id={id} />
           <span
             onClick={() => {
               setEdit(true);
