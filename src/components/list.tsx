@@ -9,14 +9,21 @@ type AppProps = {
 }
 
 type Filter = {
-  state: boolean | undefined
+  state: string | undefined
   priority: number | undefined
 }
+
+const priorityList = [
+  'Low',
+  'Normal',
+  'High',
+];
 
 const List = ({
   todos, setTodos,
 }: AppProps) => {
   const [filter, setFilter] = useState<Filter>({ state: undefined, priority: undefined });
+
   const deleteHandler = (id: number) => {
     const newTodos = todos.filter((item) => item.id !== id);
     setTodos(newTodos);
@@ -34,14 +41,14 @@ const List = ({
   const filterHandler = (type: string) => {
     if (type === 'F') {
       switch (filter.state) {
-        case true:
-          setFilter({ ...filter, state: false });
+        case 'Finished':
+          setFilter({ ...filter, state: 'Unfinished' });
           break;
-        case false:
+        case 'Unfinished':
           setFilter({ ...filter, state: undefined });
           break;
         case undefined:
-          setFilter({ ...filter, state: true });
+          setFilter({ ...filter, state: 'Finished' });
           break;
         default:
           setFilter({ ...filter, state: undefined });
@@ -68,9 +75,20 @@ const List = ({
   return (
     <div className="todo-window">
       <div className="todo-list__controls">
-        <span className="icon" onClick={() => setFilter({ state: undefined, priority: undefined })}><MdOutlineReplyAll /></span>
-        <span className="icon" onClick={() => filterHandler('F')}>FINISHED/UNFINISHED</span>
-        <span className="icon" onClick={() => filterHandler('P')}><FcHighPriority /></span>
+        <span
+          className="icon"
+          onClick={() => setFilter({ state: undefined, priority: undefined })}
+        >
+          <MdOutlineReplyAll />
+        </span>
+        {/* eslint-disable-next-line no-nested-ternary */}
+        <span className="icon" onClick={() => filterHandler('F')}>{filter.state ? filter.state : 'All'}</span>
+        <span
+          className="icon"
+          onClick={() => filterHandler('P')}
+        >
+          {typeof filter.priority === 'number' ? priorityList[filter.priority] : 'All'}
+        </span>
 
       </div>
       <div className="todo-list">
@@ -80,7 +98,10 @@ const List = ({
           if (filter.state === undefined) {
             return item;
           }
-          return item.done === filter.state;
+          if (filter.state === 'Finished') {
+            return item.done;
+          }
+          return !item.done;
         })
           .filter((item) => {
             if (filter.priority === undefined) {

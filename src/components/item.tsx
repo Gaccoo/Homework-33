@@ -57,19 +57,17 @@ const Item = ({
           : { opacity: 1, textDecoration: undefined }}
         className={priorityClassSelector()}
       >
-        <div className="todo-info">
-          <div className="todo-name__wrapper" onClick={() => doneHandler(id)}>
+        <div className="todo-info" onClick={() => doneHandler(id)}>
 
-            <input className="checkbox" type="checkbox" checked={done} onChange={() => doneHandler(id)} />
-            <h3>{name}</h3>
-          </div>
+          <input className="checkbox" type="checkbox" checked={done} onChange={() => doneHandler(id)} />
           {
   // @ts-ignore
-            picture?.file ? <img alt="not found" style={{ width: '20px', height: '20px' }} src={picture.file.image} />
+            picture?.file ? <img className="todo-img" alt="not found" style={{ width: '20px', height: '20px', borderRadius: '50%' }} src={picture.file.image} />
               : null
           }
-
+          <h3 className="todo-name">{name}</h3>
         </div>
+
         <div className="todo-action">
           <FileUploader todos={todos} setTodos={setTodos} id={id} />
           <span
