@@ -4,6 +4,24 @@
   padding: 0;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #999;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 5px
+}
+
+
 .App {
   text-align: center;
 }
@@ -14,7 +32,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   font-size: calc(10px + 1vmin);
   color: white;
 }
@@ -23,13 +41,15 @@
   padding: 20px;
 }
 .app-container {
-  width: 600px;
+  min-width: 300px;
+  width: 50%;
   background-color: #333;
   border-radius: 10px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  box-shadow: 10px 10px 8px 10px #00000030;
 }
 
 .input-wrapper {
@@ -37,7 +57,7 @@
   width: 100%;
   justify-content: center;
   align-items: center;
-  padding: 5px;
+  padding: 0 5px;
 
 
   .input {
@@ -89,9 +109,11 @@
   background-color: #333;
   border-radius: 10px;
   display: flex;
+  gap: 15px;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 7px;
+  transition: 0.5s;
 
   .todo-info {
     cursor: pointer;
@@ -100,19 +122,67 @@
     gap: 10px;
     align-items: center;
   }
+
+  .checkbox, todo-img {
+    flex-shrink: 0;
+  }
+  .todo-name {
+    flex-grow: 0;
+  }
+}
+.progress-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.progress-bar {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  padding: 5px;
+  background-color: #282c34;
+  border-radius: 25px;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.progress-done {
+  height: 100%;
+  width: 10%;
+  background-color: goldenrod;
+  border-radius: 25px;
+  transition: 0.5s;
+}
+
+.progress-text {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.todo-name__wrapper {
+  display: flex;
+  gap: 5px;
 }
 
 .todo-action {
   display: flex;
   gap: 5px;
 }
-.todo-list__filter {
+.todo-list__controls {
   padding: 10px;
   display: flex;
   justify-content: space-between;
+  font-size: 10px;
 }
 .icon {
   cursor: pointer;
+}
+
+.file-uploader {
+  display: flex;
+  gap: 10px;
 }
 
 .low {
