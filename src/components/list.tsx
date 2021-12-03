@@ -58,6 +58,7 @@ const List = ({
     const newTodos = todos.filter((item) => item.id !== id);
     setTodos(newTodos);
   };
+
   const onDone = (id: number) => {
     const newTodos = todos.map((item) => {
       if (item.id === id) {
@@ -84,6 +85,7 @@ const List = ({
         >
           {filter.state ? `Completeness: ${filter.state}` : 'Completeness: All'}
         </span>
+
         <span
           className="icon"
           onClick={() => setFilter(filterHandler('P', filter))}
@@ -92,6 +94,7 @@ const List = ({
         </span>
 
       </div>
+
       <div className="todo-list">
         {
         todos.filter((item) => {
