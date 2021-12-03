@@ -18,7 +18,7 @@ const Input = ({
   });
 
   useEffect(() => {
-    if (typeof name === 'string' && typeof priority === 'number') {
+    if (name && typeof priority === 'number') {
       setInput({ name, priority });
     }
   }, []);

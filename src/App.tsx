@@ -28,8 +28,8 @@ const App = () => {
         </header>
         <div className="app-container">
           {
-              todos.length ? <Progress progress={progress} /> : null
-            }
+            todos.length ? <Progress progress={progress} /> : null
+          }
 
           <Input
             onSubmit={(input) => {

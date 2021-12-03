@@ -13,7 +13,7 @@ type Filter = {
 }
 
 const filterHandler = (type: string, filterState: Filter) => {
-  const newFilerState:Filter = { state: undefined, priority: undefined };
+  const newFilerState:Filter = { state: filterState.state, priority: filterState.priority };
   if (type === 'F') {
     switch (filterState.state) {
       case 'Finished':
@@ -95,19 +95,18 @@ const List = ({
       <div className="todo-list">
         {
         todos.filter((item) => {
-          if (filter.state === undefined) {
-            return item;
-          }
           if (filter.state === 'Finished') {
             return item.done;
+          } if (filter.state === 'Unfinished') {
+            return !item.done;
           }
-          return !item.done;
+          return item;
         })
           .filter((item) => {
-            if (filter.priority === undefined) {
-              return item;
+            if (typeof filter.priority === 'number') {
+              return item.priority === filter.priority;
             }
-            return item.priority === filter.priority;
+            return item;
           }).sort((a, b) => b.priority - a.priority)
           .map((item) => (
             <Item
