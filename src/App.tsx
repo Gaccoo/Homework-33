@@ -6,16 +6,18 @@ import Progress from './components/progress';
 import useLocalStorage from './hooks/localStorage';
 import { TODO } from './components/item';
 
+const initialValue = [{
+  id: 1, name: 'Wash dishes', priority: 1, done: false, file: null,
+},
+{
+  id: 2, name: 'Take out the trash.', priority: 0, done: false, file: null,
+},
+{
+  id: 3, name: 'Take out the dog.', priority: 2, done: false, file: null,
+}];
+
 const App = () => {
-  const [todos, setTodos] = useLocalStorage('todos', [{
-    id: 1, name: 'Wash dishes', priority: 1, done: false, file: null,
-  },
-  {
-    id: 2, name: 'Take out the trash.', priority: 0, done: false, file: null,
-  },
-  {
-    id: 3, name: 'Take out the dog.', priority: 2, done: false, file: null,
-  }]);
+  const [todos, setTodos] = useLocalStorage('todos', initialValue);
   const progress = ((todos.filter((item: TODO) => item.done).length / todos.length) * 100).toFixed(0);
 
   return (
@@ -28,7 +30,19 @@ const App = () => {
           {
               todos.length ? <Progress progress={progress} /> : null
             }
-          <Input todos={todos} setTodos={setTodos} />
+
+          <Input
+            onSubmit={(input) => {
+              const newObj = [...todos, {
+                id: Math.round(Math.random() * 1000),
+                name: input.name,
+                priority: input.priority,
+                done: false,
+                file: null,
+              }];
+              setTodos(newObj);
+            }}
+          />
           <List todos={todos} setTodos={setTodos} />
         </div>
       </div>

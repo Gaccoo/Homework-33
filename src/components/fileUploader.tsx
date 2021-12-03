@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { AiOutlinePicture } from 'react-icons/ai';
 import { TODO } from './item';
 
