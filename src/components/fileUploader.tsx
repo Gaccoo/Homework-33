@@ -6,7 +6,6 @@ type ItemProps = {
   todos: TODO[]
   setTodos: (value: TODO[]) => void
 }
-
 const FileUploader = ({ todos, setTodos, id }: ItemProps) => {
   const onImageChange = (event: { target: { files: Blob[]; }; }) => {
     if (event.target.files && event.target.files[0]) {
