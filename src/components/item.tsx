@@ -16,38 +16,52 @@ type ListProps = {
   id: number
   priority: number
   done: boolean
-  doneHandler: (id: number) => void
-  deleteHandler: (id: number) => void
+  onDone: (id: number) => void
+  onDelete: (id: number) => void
   todos: TODO[]
   setTodos: (value: TODO[]) => void
 }
+
+export const priorities = [
+  { name: 'Low', color: 'green', id: 0 },
+  { name: 'Medium', color: 'goldenrod', id: 1 },
+  { name: 'High', color: 'red', id: 2 },
+];
+
+const priorityClassSelector = (priorityValue: number) => {
+  let classToReturn = '';
+  if (!priorityValue) {
+    classToReturn = 'todo low';
+  }
+  if (priorityValue === 1) {
+    classToReturn = 'todo';
+  }
+  if (priorityValue === 2) {
+    classToReturn = 'todo high';
+  }
+  return classToReturn;
+};
+
 const Item = ({
-  name, id, priority, done, doneHandler, deleteHandler, todos, setTodos,
+  name, id, priority, done, onDone, onDelete, todos, setTodos,
 }: ListProps) => {
   const [edit, setEdit] = useState(false);
   const picture = todos.find((item) => item.id === id);
-  const priorityClassSelector = () => {
-    let classToReturn = '';
-    if (!priority) {
-      classToReturn = 'todo low';
-    }
-    if (priority === 1) {
-      classToReturn = 'todo';
-    }
-    if (priority === 2) {
-      classToReturn = 'todo high';
-    }
-    return classToReturn;
-  };
+
   return edit ? (
     <Input
-      todos={todos}
-      setTodos={setTodos}
-      edit={edit}
-      setEdit={setEdit}
       name={name}
-      id={id}
       priority={priority}
+      onSubmit={(input) => {
+        const newState = todos.map((item) => {
+          if (item.id === id) {
+            return { ...item, name: input.name, priority: input.priority };
+          }
+          return item;
+        });
+        setTodos(newState);
+        setEdit(false);
+      }}
     />
 
   )
@@ -55,14 +69,21 @@ const Item = ({
       <div
         style={done ? { opacity: 0.4, textDecoration: 'line-through' }
           : { opacity: 1, textDecoration: undefined }}
-        className={priorityClassSelector()}
+        className={priorityClassSelector(priority)}
       >
-        <div className="todo-info" onClick={() => doneHandler(id)}>
+        <div className="todo-info" onClick={() => onDone(id)}>
 
-          <input className="checkbox" type="checkbox" checked={done} onChange={() => doneHandler(id)} />
+          <input className="checkbox" type="checkbox" checked={done} onChange={() => onDone(id)} />
           {
+            picture?.file ? (
+              <img
+                className="todo-img"
+                alt="not found"
+                style={{ width: '20px', height: '20px', borderRadius: '50%' }}
   // @ts-ignore
-            picture?.file ? <img className="todo-img" alt="not found" style={{ width: '20px', height: '20px', borderRadius: '50%' }} src={picture.file.image} />
+                src={picture.file.image}
+              />
+            )
               : null
           }
           <h3 className="todo-name">{name}</h3>
@@ -78,7 +99,7 @@ const Item = ({
           >
             <AiOutlineEdit />
           </span>
-          <span onClick={() => deleteHandler(id)} className="icon"><AiOutlineDelete /></span>
+          <span onClick={() => onDelete(id)} className="icon"><AiOutlineDelete /></span>
         </div>
       </div>
     );

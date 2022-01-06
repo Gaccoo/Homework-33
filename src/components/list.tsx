@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { MdOutlineReplyAll } from 'react-icons/md';
-import { FcHighPriority, FcLowPriority, FcMediumPriority } from 'react-icons/all';
-import Item, { TODO } from './item';
+import Item, { priorities, TODO } from './item';
 
 type AppProps = {
   todos: TODO[]
@@ -13,22 +12,54 @@ type Filter = {
   priority: number | undefined
 }
 
-const priorityList = [
-  'Low',
-  'Normal',
-  'High',
-];
+const filterHandler = (type: string, filterState: Filter) => {
+  const newFilerState:Filter = { state: filterState.state, priority: filterState.priority };
+  if (type === 'F') {
+    switch (filterState.state) {
+      case 'Finished':
+        newFilerState.state = 'Unfinished';
+        break;
+      case 'Unfinished':
+        newFilerState.state = undefined;
+        break;
+      case undefined:
+        newFilerState.state = 'Finished';
+        break;
+      default:
+        return { ...filterState, state: undefined };
+    }
+  } else {
+    switch (filterState.priority) {
+      case undefined:
+        newFilerState.priority = 0;
+        break;
+      case 0:
+        newFilerState.priority = 1;
+        break;
+      case 1:
+        newFilerState.priority = 2;
+        break;
+      case 2:
+        newFilerState.priority = undefined;
+        break;
+      default:
+        newFilerState.priority = undefined;
+    }
+  }
+  return newFilerState;
+};
 
 const List = ({
   todos, setTodos,
 }: AppProps) => {
   const [filter, setFilter] = useState<Filter>({ state: undefined, priority: undefined });
 
-  const deleteHandler = (id: number) => {
+  const onDelete = (id: number) => {
     const newTodos = todos.filter((item) => item.id !== id);
     setTodos(newTodos);
   };
-  const doneHandler = (id: number) => {
+
+  const onDone = (id: number) => {
     const newTodos = todos.map((item) => {
       if (item.id === id) {
         return { ...item, done: !item.done };
@@ -38,40 +69,6 @@ const List = ({
     setTodos(newTodos);
   };
 
-  const filterHandler = (type: string) => {
-    if (type === 'F') {
-      switch (filter.state) {
-        case 'Finished':
-          setFilter({ ...filter, state: 'Unfinished' });
-          break;
-        case 'Unfinished':
-          setFilter({ ...filter, state: undefined });
-          break;
-        case undefined:
-          setFilter({ ...filter, state: 'Finished' });
-          break;
-        default:
-          setFilter({ ...filter, state: undefined });
-      }
-    } else {
-      switch (filter.priority) {
-        case undefined:
-          setFilter({ ...filter, priority: 0 });
-          break;
-        case 0:
-          setFilter({ ...filter, priority: 1 });
-          break;
-        case 1:
-          setFilter({ ...filter, priority: 2 });
-          break;
-        case 2:
-          setFilter({ ...filter, priority: undefined });
-          break;
-        default:
-          setFilter({ ...filter, priority: undefined });
-      }
-    }
-  };
   return (
     <div className="todo-window">
       <div className="todo-list__controls">
@@ -81,33 +78,38 @@ const List = ({
         >
           <MdOutlineReplyAll />
         </span>
-        {/* eslint-disable-next-line no-nested-ternary */}
-        <span className="icon" onClick={() => filterHandler('F')}>{filter.state ? `Completeness: ${filter.state}` : 'Completeness: All'}</span>
+
         <span
           className="icon"
-          onClick={() => filterHandler('P')}
+          onClick={() => setFilter(filterHandler('F', filter))}
         >
-          {typeof filter.priority === 'number' ? `Priority: ${priorityList[filter.priority]}` : 'Priority: All'}
+          {filter.state ? `Completeness: ${filter.state}` : 'Completeness: All'}
+        </span>
+
+        <span
+          className="icon"
+          onClick={() => setFilter(filterHandler('P', filter))}
+        >
+          {typeof filter.priority === 'number' ? `Priority: ${priorities[filter.priority].name}` : 'Priority: All'}
         </span>
 
       </div>
+
       <div className="todo-list">
         {
-          // eslint-disable-next-line eqeqeq
         todos.filter((item) => {
-          if (filter.state === undefined) {
-            return item;
-          }
           if (filter.state === 'Finished') {
             return item.done;
+          } if (filter.state === 'Unfinished') {
+            return !item.done;
           }
-          return !item.done;
+          return item;
         })
           .filter((item) => {
-            if (filter.priority === undefined) {
-              return item;
+            if (typeof filter.priority === 'number') {
+              return item.priority === filter.priority;
             }
-            return item.priority === filter.priority;
+            return item;
           }).sort((a, b) => b.priority - a.priority)
           .map((item) => (
             <Item
@@ -116,8 +118,8 @@ const List = ({
               id={item.id}
               done={item.done}
               priority={item.priority}
-              doneHandler={doneHandler}
-              deleteHandler={deleteHandler}
+              onDone={onDone}
+              onDelete={onDelete}
               todos={todos}
               setTodos={setTodos}
             />
